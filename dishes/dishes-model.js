@@ -23,11 +23,17 @@ function find(query) {
   return rows;
 }
 
-function findById(dishId) {
-  return db('dishes as d')
-    .join('recipes as r', 'd.id', 'r.dish_id' )
-    .select('d.id as dish_Id','d.name as Dish Type', 'r.id as recipeId',  'r.name as Recipe Name' )
-    .where({ "dish_Id": dishId });
+function findById(id) {
+  return db('dishes')
+    .join('recipes as r', { 'dishes.id': 'r.dish_id' })
+    .select(
+      'dishes.id as dish_id',
+      'dishes.name as dish_type',
+      'r.id as recipe_id', // Could also join providers table to supply provider name
+      'r.name as recipe_name'
+    )
+    .where({ 'dishes.id': id })
+    
 }
 
 async function add(dish) {
